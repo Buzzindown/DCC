@@ -64,7 +64,6 @@ public class May42021 {
             // if we can't find a counterpart we just add
             map.add(arr[x]);
         }
-
         System.out.println("Match not found");
     }
 }
