@@ -67,7 +67,7 @@ public class May42021 {
             map.add(arr[x]);
         }
 
-         // time compelxity will be n
+         // time compelxity will be n because the contains method is time complexity 1
         // space complexity will be n
 
         System.out.println("Match not found");
