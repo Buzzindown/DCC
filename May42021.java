@@ -37,9 +37,7 @@ public class May42021 {
         myScanner.close();
 
         // first solution
-        // time complexity will be n^2
-        // Space complexity will be n
-
+    
         // for(x = 0; x < numElems; x++){
         //     for(y = x; y < numElems; y++){
         //         if(arr[x] + arr[y] == sum){
@@ -49,10 +47,14 @@ public class May42021 {
         //     }
         // }
 
+        // time complexity will be n^2
+        // Space complexity will be n
+
         // Better solution
         // we can build a set that contains the difference between our curr
         // val and the sum so we can look for the counterpart of the part
         // then as we build the set we can check if a counterpart is contained
+       
         HashSet<Integer> map = new HashSet<Integer>();
         for(x = 0; x < numElems; x++){
             // get our difference
@@ -64,6 +66,10 @@ public class May42021 {
             // if we can't find a counterpart we just add
             map.add(arr[x]);
         }
+
+         // time compelxity will be n
+        // space complexity will be n
+
         System.out.println("Match not found");
     }
 }
