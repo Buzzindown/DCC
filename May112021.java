@@ -14,13 +14,7 @@ public class May112021 {
     // brute solution would be to recursively check if each subtree is all the same
 
     // how can we do this smarter .... 
-    // if we think about a tree and it's various subtrees
-    // suppose we had
-    //                          1
-    //                  1               1
-    //             1        1       1       1
-    //         0
-    
+    // We could try and store the values
 
 
     int value;
@@ -36,18 +30,14 @@ public class May112021 {
     // let's start with a function that searches a full tree
     int solution(May112021 root){
         int ret = checksubTree(root, root.value);
-        if(ret == 1){
-            System.out.println("made it!");
-        }
-        System.out.println(root.value);
         if(root.left != null){
            
-            solution(root.left);
+           ret += solution(root.left);
         }
         if(root.right != null){
-            solution(root.right);
+           ret += solution(root.right);
         }
-        return 0;
+        return ret;
     }
 
     int checksubTree(May112021 root, int value){
@@ -80,6 +70,78 @@ public class May112021 {
         }
     }
 
+    // time complexity would be bad, we're searching through the tree recursively
+    // and on each node we're doing another recursive search, binary recursive search
+    // takes n and we're effectively doing it on every node so we would get something
+    // along the lines of n*n = n^2 which isn't good. Although I think it can easily
+    // be improved upon
+
+    // how could we make it better though. The issue with the current solution
+    // is that we're double calculating a bunch of trees, and the issue with the last 
+    // solution was that I was unable to come up with a way to return the number of tree's for 
+    // a specific node while also checking if the node was a unival tree, this is what sort
+    // of forced me into searching each subtree which is super inefficient
+    // so our new solution should return the count of subtrees, as well as if 
+    // the current tree is a subtree. If we can tell the hireup nodes that a node below it isn't
+    // a unival tree, then we know the tree rooted at that node also is not a unival tree, and so on so forth
+    // I made a pair class for passing around two values
+
+    pair solution2(May112021 root){
+        // end of tree
+        pair retPair = new pair();
+        // end nodes are unival trees
+        if(root.left == null && root.right == null){
+            retPair.numUnival = 1;
+            retPair.isTree = 1;
+            return retPair;
+        }
+
+        pair left = null;
+        pair right = null; 
+        int total = 0;
+        // checkout our two subtrees
+        if(root.left != null){
+            left = solution2(root.left);
+            total += left.numUnival; 
+        }
+        if(root.right != null){
+            right = solution2(root.right);
+            total += right.numUnival;
+        }
+
+        // check if we got both the trees
+
+        if(left != null && right != null){
+            if(left.isTree == 1 && right.isTree == 1){
+                if(root.left.value != root.value){
+                    retPair.numUnival = total;
+                    retPair.isTree = 0;
+                    return retPair;
+                }
+                if(root.left.value != root.value){
+                    retPair.numUnival = total;
+                    retPair.isTree = 0;
+                    return retPair;
+                }
+
+                // both subtrees are univals
+                retPair.numUnival = total + 1;
+                retPair.isTree = 1;
+                return retPair;
+            }
+
+        }
+
+        retPair.numUnival = total;
+        retPair.isTree = 0;
+        return retPair;
+   
+    }
+
+    // time complexity will be n now that we're not repeating any trees
+
+    
+
     public static void main(String[] args){
 
         May112021 root = new May112021(0);
@@ -100,10 +162,26 @@ public class May112021 {
         l2.right = r3;
         l3.left = l4;
         l3.right = r4;    
+        System.out.println("Solution 1:" + root.solution(root));
+        pair p = root.solution2(root);
+        System.out.println( "Solution 2:" + p.numUnival);
 
-        System.out.println(root.solution(root));
 
 
+    }
+}
 
+class pair{
+    public int numUnival;
+    public int isTree;
+
+    public pair(){
+        numUnival = 0;
+        isTree = 0;
+    }
+
+    public pair(int uv, int tree){
+        numUnival = uv;
+        isTree = tree;
     }
 }
