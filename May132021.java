@@ -10,10 +10,11 @@ public class May132021 {
     // this seems pretty straight forward
     // we just need to find a way to pass a funcction to a method
     // then call a sleep then execute the function
-    // we should be able to dothis using abstrat interfaces
 
     // the question is a little unclear but this seems to do the trick,
     // passing an already existing function would be quite a trick in java
+
+    // perhaps this is more of a question of multithreading ? 
 
     public void Scheduler(JobExceute task, int n){
         try{
