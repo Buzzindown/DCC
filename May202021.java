@@ -82,8 +82,9 @@ public class May202021 {
     // using this we could also print the string with minimal effort if we wanted to
 
     void solution(String Directories){
-        Directories = Directories.replace("\\n\\", "?\\");
-        String lines[] = Directories.split("\\?",0);
+        Directories = Directories.replace("\\n", ">");
+        System.out.println(Directories);
+        String lines[] = Directories.split(">",0);
         Stack<Integer> words = new Stack<Integer>();
         int previousTabs = -1;
         int currentValue = 0;
@@ -91,10 +92,8 @@ public class May202021 {
         int y = 0;
 
         for(String x: lines){
-            
-            // need to count tabs first 
             int tempTabs = this.countTabs(x);
-            
+            System.out.println(tempTabs);
             // get our value for the stack
             x = x.replace("\\t","");
             int tempStringlen = (x.length());
@@ -106,8 +105,10 @@ public class May202021 {
 
             }else if(tempTabs == previousTabs){
                 // pop off old val and push new val
-                int temporary = words.pop();
-                currentValue -= temporary;
+                if(currentValue > 0){
+                    int temporary = words.pop();
+                    currentValue -= temporary;
+                }
                 words.push(tempStringlen);
                 currentValue += tempStringlen;
                 
@@ -127,11 +128,14 @@ public class May202021 {
 
             previousTabs = tempTabs;
 
-            if(x.endsWith(".ext") && currentValue > highestValue){
+            if(x.contains(".") && (currentValue + words.size() - 1) >= highestValue){
+                System.out.println(currentValue);
+                System.out.println(words);
                 highestValue = currentValue + words.size() - 1;
             }
-
+            
         }
+        System.out.println(highestValue);
     }
 
     int countTabs(String y){
@@ -149,9 +153,9 @@ public class May202021 {
         }
         return tabs;
     }
-
+    
     // speed will be n*m where n is the number of words and n is the average length
-    // space will be linear
+    // space will be linear 
 
     public static void main(String[] args){
 
@@ -165,9 +169,9 @@ public class May202021 {
         May202021 test = new May202021();
 
         test.solution(dir);
-        System.out.println(test.countTabs(dir));
     }
 
 
+     
    
 }
